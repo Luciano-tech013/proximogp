@@ -1,7 +1,7 @@
 <?php
-require_once "src/Content.php";
-require_once "src/NextRaceHandler.php";
-require_once "src/RaceView.php";
+require_once __DIR__ . "/../src/Content.php";
+require_once __DIR__ . "/../src/NextRaceHandler.php";
+require_once __DIR__ . "/../src/RaceView.php";
 
 $currentDate = new DateTime();
 
@@ -42,9 +42,7 @@ if($countDays == -1) {
 
 $messageDays = $nextRaceHandler->get_message($countDays);
 
-$view->render("header.php", [
-    "season" => $season
-]);
+$view->render("header.php", []);
 
 $view->render("main.php", [
     "info" => "Ronda {$nextRace['round']}: {$nextRace['raceName']}",
