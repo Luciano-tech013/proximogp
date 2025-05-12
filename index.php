@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . "/../src/Content.php";
-require_once __DIR__ . "/../src/NextRaceHandler.php";
-require_once __DIR__ . "/../src/RaceView.php";
+require_once __DIR__ . "/src/Content.php";
+require_once __DIR__ . "/src/NextRaceHandler.php";
+require_once __DIR__ . "/src/RaceView.php";
 
 $currentDate = new DateTime();
 
