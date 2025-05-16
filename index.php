@@ -3,9 +3,9 @@ require_once __DIR__ . "/src/Content.php";
 require_once __DIR__ . "/src/NextRaceHandler.php";
 require_once __DIR__ . "/src/RaceView.php";
 
-$currentDate = new DateTime();
+$currentDate = new DateTime('now', new DateTimeZone('America/Argentina/Buenos_Aires'));
 
-$nextRaceHandler = new NextRaceHandler($currentDate);
+$nextRaceHandler = new NextRaceHandler($currentDate, null);
 $view = new RaceView();
 
 //Obtiene las carreras de la temporada actual

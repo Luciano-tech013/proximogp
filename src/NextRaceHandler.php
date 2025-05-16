@@ -2,25 +2,36 @@
 
 class NextRaceHandler {
     public function __construct(
-        private DateTime $currentDate
+        private DateTime $currentDate,
     )
     {}
 
     public function get_next_race(array $races) {
-        foreach($races as $race) {
-            $dateString = $race["schedule"]["fp1"]["date"];
+        $today = $this->currentDate;
 
-            if(!$dateString)
+        foreach ($races as $race) {
+            $fp1DateString = $race['schedule']['fp1']['date'] ?? null;
+
+            //Si no tiene fecha, salteo
+            if(!$fp1DateString) 
                 continue;
-
-            //Lo convierto a DateTime para poder comparar
-            $raceDate = new DateTime($dateString);
             
-            if($raceDate >= $this->currentDate) {
-                return $race;
-            }
-        }
+            //Fecha de inicio del GP (viernes)
+            $start = (new DateTime($fp1DateString))->setTime(0, 0, 0);
+
+            //Fecha de fin del GP (domingo): +2 días
+            $end = $start->modify('+2 days')->setTime(23, 59, 59);
     
+            //Si hoy está dentro del fin de semana del GP, devuelvo ese GP
+            if($today >= $start && $today <= $end)
+                return $race;
+    
+            //Si el GP aún no empezó (y no estamos en su fin de semana), devuelvo el próximo
+            if($start > $today)
+                return $race;
+        }
+        
+        //NO hay mas carreras
         return null;
     }
     
@@ -38,9 +49,9 @@ class NextRaceHandler {
 
     public function get_message(int $days): string {
         return match(true) {
-            $days == 0 => "¡Es hoy!",
-            $days == 1 => "Falta <span>$days dia</span> para el Gran Premio",
-            default => "Faltan <span>$days dias</span> para el Gran Premio"
+            $days == 0 => "<span class='race__days__today'>¡Es hoy!</span>",
+            $days == 1 => "Falta <span class='race__days__upcoming'>$days dia</span> para el Gran Premio",
+            default => "Faltan <span class='race__days__upcoming'>$days dias</span> para el Gran Premio"
         };
     }
 }

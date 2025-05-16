@@ -24,7 +24,11 @@ main img {
     margin-bottom: 47px;
 }
 
-span {
+.race__days__today {
+    color: rgba(20, 216, 20, 0.943);
+}
+
+.race__days__upcoming {
     color: rgba(216, 216, 20, 0.943);
 }
 
